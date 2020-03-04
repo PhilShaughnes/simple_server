@@ -2,10 +2,19 @@ defmodule SimpleServer.Router do
   use Plug.Router
 
   plug(Plug.Parsers,
-    parsers: [:urlencoded, :json],
-    pass: ["text/*"],
+    parsers: [:urlencoded, :multipart, :json, Absinthe.Plug.Parser],
+    pass: ["*/*"],
     json_decoder: Jason
   )
+
+  forward "/gql",
+    to: Absinthe.Plug,
+    init_opts: [schema: SimpleServer.Schema]
+
+
+  forward "/graphiql",
+    to: Absinthe.Plug.GraphiQL,
+    init_opts: [schema: SimpleServer.Schema]
 
   plug(:match)
   plug(:dispatch)
