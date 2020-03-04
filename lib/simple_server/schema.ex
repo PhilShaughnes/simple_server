@@ -12,9 +12,16 @@ defmodule SimpleServer.Schema do
     field :item, :item do
       arg(:id, non_null(:id))
 
-      resolve(fn %{id: item_id}, _ ->
+      resolve(fn %{id: item_id}, _info ->
         {:ok, @items[item_id]}
       end)
+    end
+
+    field :items, list_of(:item) do
+      resolve(fn args, info ->
+        {:ok, Enum.map(@items, fn {_id, item} -> item end)}
+      end
+      )
     end
   end
 end
