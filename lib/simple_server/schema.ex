@@ -1,29 +1,18 @@
 defmodule SimpleServer.Schema do
   use Absinthe.Schema
 
-  import_types(SimpleServer.Schema.Types)
+  import SimpleServer.Schema.Resolvers
 
-  @items %{
-    "hello" => %{id: "hello", name: "world"},
-    "bye" => %{id: "bye", name: "forever"}
-  }
+  import_types(SimpleServer.Schema.Types)
 
   query do
     field :item, :item do
       arg(:id, non_null(:id))
-
-      resolve(fn %{id: item_id}, _info ->
-        case @items[item_id] do
-          nil -> {:error, "no item for id #{item_id} found"}
-          item -> {:ok, item}
-        end
-      end)
+      resolve(&(get_item/2))
     end
 
     field :items, list_of(:item) do
-      resolve(fn _args, _info ->
-        {:ok, Enum.map(@items, fn {_id, item} -> item end)}
-      end)
+      resolve(&(get_all_items/2))
     end
   end
 end
