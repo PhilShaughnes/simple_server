@@ -5,11 +5,11 @@ defmodule SimpleServer.Schema.Resolvers do
     "bye" => %{id: "bye", name: "forever"}
   }
 
-  get_item(%{id: item_id}, _info) do
+  def get_item(%{id: item_id}, _info) do
     {:ok, @items[item_id]}
   end
 
-  get_all_items(_args, _info) do
+  def get_all_items(_args, _info) do
     {:ok, Enum.map(@items, fn {_id, item} -> item end)}
   end
 end
