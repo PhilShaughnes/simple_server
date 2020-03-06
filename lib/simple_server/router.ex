@@ -11,10 +11,13 @@ defmodule SimpleServer.Router do
     to: Absinthe.Plug,
     init_opts: [schema: SimpleServer.Schema]
 
-
   forward "/graphiql",
     to: Absinthe.Plug.GraphiQL,
-    init_opts: [schema: SimpleServer.Schema]
+    init_opts: [
+      schema: SimpleServer.Schema,
+      pipeline: {ApolloTracing.Pipeline, :plug},
+      interface: :playground
+    ]
 
   plug(:match)
   plug(:dispatch)

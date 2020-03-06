@@ -2,7 +2,9 @@ defmodule SimpleServer.Schema.Resolvers do
 
   @items %{
     "hello" => %{id: "hello", name: "world"},
-    "bye" => %{id: "bye", name: "forever"}
+    "bye" => %{id: "bye", name: "forever"},
+    "go" => %{id: "go", name: "faster faster"},
+    "stop" => %{id: "stop", name: "no more fast"}
   }
 
   def get_item(%{id: item_id}, _info) do

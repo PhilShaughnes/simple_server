@@ -1,5 +1,6 @@
 defmodule SimpleServer.Schema do
   use Absinthe.Schema
+  use ApolloTracing
 
   import SimpleServer.Schema.Resolvers
 
